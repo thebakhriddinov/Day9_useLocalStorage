@@ -1,32 +1,37 @@
-import { useEffect } from "react";
-import useLocalStorage from "./useLocalStorage"
+import { useState, useEffect } from "react";
 
-function App() {
-
-  const [darkMode, setDarkMode] = useLocalStorage("theme", false);
+export default function App() {
+  const [dark, setDark] = useState(() => {
+    return localStorage.getItem("dark") === "true";
+  });
 
   useEffect(() => {
-    if (darkMode) {
+    if (dark) {
       document.documentElement.classList.add("dark");
+      localStorage.setItem("dark", "true");
     } else {
       document.documentElement.classList.remove("dark");
+      localStorage.setItem("dark", "false");
     }
-    }, [darkMode]);
+  }, [dark]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 transition">
-      <h1 className="text-3xl font-bold mb-6 text-blue-600 dark:text-yellow-300">
-        Day 9 - Custom Hook & Dark Mode
+    <div className="min-h-screen flex flex-col items-center justify-center gap-10 bg-white dark:bg-black transition-colors">
+      
+      <h1 className="text-6xl font-bold text-black dark:text-white">
+        Dark Theme Tayyor!
       </h1>
 
       <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="px-6 py-3 rounded-xl text-white bg-blue-600 dark:bg-yellow-500 dark:text-black hover:opacity-70 transition"
+        onClick={() => setDark(!dark)}
+        className="px-8 py-4 bg-gray-800 dark:bg-white text-white dark:text-black rounded text-xl font-bold"
       >
-        {darkMode ? "Light Mode" : "Dark Mode"}
+        {dark ? "☀️ Light" : "🌙 Dark"} ga o‘tish
       </button>
-    </div>
-  )
-}
 
-export default App;
+      <p className="text-gray-600 dark:text-gray-300">
+        9-kun – bajarildi! 
+      </p>
+    </div>
+  );
+}
